@@ -28,7 +28,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "https://devdelphiconnectapi.azure-api.net/superdev/swag/api/v1/swagger/?subscription-key=29957f4ce0cc494384e9ed9e82938581";
+        url = "https://devdelphiconnectapi.azure-api.net/superdev/swag/api/v1/swagger/";
       }
       window.swaggerUi = new SwaggerUi({
         url: url,
@@ -55,12 +55,15 @@
         sorter : "alpha"
       });
 
+      // Remove or comment so it validates against Online Swagger Validator
+      window.swaggerUi.options.validatorUrl = null;
+
       function addApiKeyAuthorization() {
         var key = $('#input_apiKey')[0].value;
         log("key: " + key);
         if(key && key.trim() != "") {
             log("added key " + key);
-            window.authorizations.add("api_key", new ApiKeyAuthorization("api_key", key, "query"));
+            window.authorizations.add("subscription-key", new ApiKeyAuthorization("subscription-key", key, "query"));
         }
       }
 
@@ -68,12 +71,10 @@
         addApiKeyAuthorization();
       });
 
-      // if you have an apiKey you would like to pre-populate on the page for demonstration purposes...
-      /*
-        var apiKey = "myApiKeyXXXX123456789";
-        $('#input_apiKey').val(apiKey);
-        addApiKeyAuthorization();
-      */
+      // Prepopulate with Api Management basic key
+      var apiKey = "29957f4ce0cc494384e9ed9e82938581";
+      $('#input_apiKey').val(apiKey);
+      addApiKeyAuthorization();
 
       window.swaggerUi.load();
   });
